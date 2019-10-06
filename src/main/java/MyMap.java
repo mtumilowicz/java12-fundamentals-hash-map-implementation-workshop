@@ -10,8 +10,9 @@ public class MyMap<K, V> {
     private static final int INITIAL_CAPACITY = 1 << 4; // 16
 
     public MyMap() {
-        IntStream.iterate(0, i -> i < INITIAL_CAPACITY, i -> ++i)
-                .forEach(i -> buckets.add(i, new Bucket<>()));
+        IntStream.iterate(0, bucket -> bucket < INITIAL_CAPACITY, bucket -> ++bucket)
+                .mapToObj(Bucket<K, V>::new)
+                .forEach(bucket -> buckets.add(bucket));
     }
 
     public void put(K key, V value) {

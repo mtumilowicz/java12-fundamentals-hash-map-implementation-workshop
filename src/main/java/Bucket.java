@@ -1,10 +1,13 @@
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.LinkedList;
 
 @ToString
+@RequiredArgsConstructor
 public class Bucket<K, V> {
-    LinkedList<Entry<K, V>> entries = new LinkedList<>();
+    final int i;
+    final LinkedList<Entry<K, V>> entries = new LinkedList<>();
 
     void add(K key, V value) {
         entries.stream()
