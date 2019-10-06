@@ -3,6 +3,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @EqualsAndHashCode(of = {"key", "value"})
 @ToString(of = {"key", "value"})
@@ -34,5 +35,8 @@ class Entry<K, V> {
         }
 
         return Optional.ofNullable(bucket);
+        /*
+                return Stream.iterate(this, n -> nonNull(n.next), n -> n.next).findAny();
+         */
     }
 }

@@ -43,6 +43,7 @@ public class MyMap<K, V> {
     }
 
     public V get(K key) {
+        // return buckets.get(getBucketIndex(key)).find(key);
         Entry<K, V> bucket = buckets.get(getBucketIndex(key));
 
         while (bucket != null) {
