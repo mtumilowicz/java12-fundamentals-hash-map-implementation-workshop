@@ -22,7 +22,7 @@ class MyMapTest extends Specification {
         map.size() == 2
         map.get('Aa') == 'Aa'
         map.get('BB') == 'BB'
-        map.getEntry('Aa').size() == 2
+        map.getBucket('Aa').size() == 2
     }
 
     def 'put non null key'() {
@@ -71,7 +71,12 @@ class MyMapTest extends Specification {
         map.put('a', 'b')
 
         then:
-        map.getBucketsSize() == 16
+        map.size() == 1
         map.get('a') == 'b'
+    }
+
+    def 'initial size'() {
+        expect:
+        map.getBucketsSize() == 16
     }
 }

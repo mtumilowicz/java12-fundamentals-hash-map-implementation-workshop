@@ -2,68 +2,45 @@ import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.IntStream;
 
 @ToString(of = "buckets")
 public class MyMap<K, V> {
-    private Entry<K, V>[] buckets = new Entry[INITIAL_CAPACITY];
+    private ArrayList<Bucket<K, V>> buckets = new ArrayList<>();
     private static final int INITIAL_CAPACITY = 1 << 4; // 16
     private int size = 0;
 
+    public MyMap() {
+        IntStream.iterate(0, i -> i < INITIAL_CAPACITY, i -> ++i)
+                .forEach(i -> {
+                    buckets.add(i, new Bucket<>());
+                });
+    }
+
     public void put(K key, V value) {
-        Entry<K, V> entry = new Entry<>(key, value, null);
-
-        int bucket = getBucketIndex(key);
-
-        Entry<K, V> existing = buckets[bucket];
-        if (existing == null) {
-            buckets[bucket] = entry;
-            size++;
-        } else {
-            // compare the keys see if key already exists
-            while (existing.next != null) {
-                if (existing.key.equals(key)) {
-                    existing.value = value;
-                    return;
-                }
-                existing = existing.next;
-            }
-
-            if (existing.key.equals(key)) {
-                existing.value = value;
-            } else {
-                existing.next = entry;
-                size++;
-            }
-        }
+        Bucket<K, V> bucket = buckets.get(getBucketIndex(key));
+        bucket.add(key, value);
     }
 
     public V get(K key) {
-        // return buckets.get(getBucketIndex(key)).find(key);
-        Entry<K, V> bucket = buckets[getBucketIndex(key)];
-
-        while (bucket != null) {
-            if (key == bucket.key) {
-                return bucket.value;
-            }
-            bucket = bucket.next;
-        }
-        return null;
+        Bucket<K, V> bucket = buckets.get(getBucketIndex(key));
+        return bucket.get(key);
     }
 
-    public Entry<K, V> getEntry(K key) {
-        return buckets[getBucketIndex(key)];
+    public Bucket<K, V> getBucket(K key) {
+        return buckets.get(getBucketIndex(key));
     }
 
     private int getBucketIndex(K key) {
         return getHash(key) % getBucketsSize();
     }
 
-    public int size() {
-        return size;
+    public long size() {
+        return buckets.stream().map(Bucket::size).mapToLong(x -> x).sum();
     }
 
     public int getBucketsSize() {
-        return buckets.length;
+        return buckets.size();
     }
 
     private int getHash(K key) {
