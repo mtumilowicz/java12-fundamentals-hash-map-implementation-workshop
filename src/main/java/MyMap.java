@@ -1,10 +1,9 @@
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.stream.Stream;
 
+@ToString(of = "buckets")
 public class MyMap<K, V> {
     private ArrayList<Entry<K, V>> buckets;
     private static final int INITIAL_CAPACITY = 1 << 4; // 16
@@ -12,17 +11,13 @@ public class MyMap<K, V> {
     private int size = 0;
 
     public MyMap() {
-        this(INITIAL_CAPACITY);
-    }
-
-    private MyMap(int capacity) {
-        this.buckets = new ArrayList<>();
+        buckets = new ArrayList<>(INITIAL_CAPACITY);
     }
 
     public void put(K key, V value) {
         Entry<K, V> entry = new Entry<>(key, value, null);
 
-        int bucket = getHash(key) % getBucketSize();
+        int bucket = getBucketIndex(key);
 
         Entry<K, V> existing = buckets.get(bucket);
         if (existing == null) {
@@ -48,7 +43,7 @@ public class MyMap<K, V> {
     }
 
     public V get(K key) {
-        Entry<K, V> bucket = buckets.get(getHash(key) % getBucketSize());
+        Entry<K, V> bucket = buckets.get(getBucketIndex(key));
 
         while (bucket != null) {
             if (key == bucket.key) {
@@ -57,6 +52,10 @@ public class MyMap<K, V> {
             bucket = bucket.next;
         }
         return null;
+    }
+
+    private int getBucketIndex(K key) {
+        return getHash(key) % getBucketSize();
     }
 
     public int size() {
@@ -69,10 +68,5 @@ public class MyMap<K, V> {
 
     private int getHash(K key) {
         return key == null ? 0 : Math.abs(key.hashCode());
-    }
-
-    @Override
-    public String toString() {
-        return buckets.toString();
     }
 }
