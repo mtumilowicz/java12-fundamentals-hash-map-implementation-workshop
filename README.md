@@ -8,3 +8,5 @@ https://www.geeksforgeeks.org/internal-working-of-hashmap-java/
 1. what to do with null?
 1. get should return Optional ?
 1. what to do in case of collision? linkedlist vs balanced tree (threshold)
+1. thread safe vs not thread safe
+1. immutable or mutable?
