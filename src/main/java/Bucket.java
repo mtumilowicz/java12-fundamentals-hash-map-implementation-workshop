@@ -1,24 +1,23 @@
 import lombok.ToString;
 
 import java.util.LinkedList;
-import java.util.Objects;
 
 @ToString
 public class Bucket<K, V> {
     LinkedList<Entry<K, V>> entries = new LinkedList<>();
 
-    public void add(K key, V value) {
+    void add(K key, V value) {
         entries.stream()
-                .filter(x -> Objects.equals(x.key, key))
+                .filter(Entry.byKey(key))
                 .findFirst()
-                .ifPresentOrElse(x -> x.value = value, () -> entries.add(new Entry<>(key, value)));
+                .ifPresentOrElse(Entry.setValue(value), () -> entries.add(new Entry<>(key, value)));
     }
 
-    public V get(K key) {
+    V get(K key) {
         return entries.stream()
-                .filter(x -> Objects.equals(x.key, key))
+                .filter(Entry.byKey(key))
                 .findFirst()
-                .map(x -> x.value)
+                .map(Entry::getValue)
                 .orElse(null);
     }
 
