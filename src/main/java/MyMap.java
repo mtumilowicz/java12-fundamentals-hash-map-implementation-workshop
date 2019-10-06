@@ -33,7 +33,10 @@ public class MyMap<K, V> {
     }
 
     public long size() {
-        return buckets.stream().map(Bucket::size).mapToLong(x -> x).sum();
+        return buckets.stream()
+                .map(Bucket::size)
+                .mapToLong(Long::longValue)
+                .sum();
     }
 
     public int getBucketsSize() {
