@@ -2,7 +2,7 @@ import spock.lang.Specification
 
 class MyMapTest extends Specification {
 
-    def map = new MyMap()
+    def map = new MyMap<String, String>()
 
     def 'put null key and null value'() {
         when:
