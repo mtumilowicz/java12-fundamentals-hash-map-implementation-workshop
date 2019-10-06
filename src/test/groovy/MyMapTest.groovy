@@ -4,6 +4,15 @@ class MyMapTest extends Specification {
 
     def map = new MyMap()
 
+    def 'put null key and null value'() {
+        when:
+        map.put(null, null)
+
+        then:
+        map.size() == 1
+        map.get(null) == null
+    }
+
     def 'put non null key'() {
         when:
         map.put('a', 'a')
