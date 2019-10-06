@@ -1,20 +1,17 @@
 import lombok.ToString;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 @ToString(of = "buckets")
 public class MyMap<K, V> {
     private ArrayList<Bucket<K, V>> buckets = new ArrayList<>();
     private static final int INITIAL_CAPACITY = 1 << 4; // 16
-    private int size = 0;
 
     public MyMap() {
         IntStream.iterate(0, i -> i < INITIAL_CAPACITY, i -> ++i)
-                .forEach(i -> {
-                    buckets.add(i, new Bucket<>());
-                });
+                .forEach(i -> buckets.add(i, new Bucket<>()));
     }
 
     public void put(K key, V value) {
@@ -32,7 +29,7 @@ public class MyMap<K, V> {
     }
 
     private int getBucketIndex(K key) {
-        return getHash(key) % getBucketsSize();
+        return hash(key) % getBucketsSize();
     }
 
     public long size() {
@@ -43,7 +40,7 @@ public class MyMap<K, V> {
         return buckets.size();
     }
 
-    private int getHash(K key) {
-        return key == null ? 0 : Math.abs(key.hashCode());
+    int hash(K key) {
+        return Math.abs(Objects.hashCode(key));
     }
 }

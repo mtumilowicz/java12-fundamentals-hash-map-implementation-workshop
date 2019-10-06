@@ -79,4 +79,9 @@ class MyMapTest extends Specification {
         expect:
         map.getBucketsSize() == 16
     }
+
+    def 'hash of null'() {
+        expect:
+        map.hash(null) == 0
+    }
 }
