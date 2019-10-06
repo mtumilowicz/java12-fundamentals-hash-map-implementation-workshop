@@ -1,27 +1,22 @@
 import lombok.ToString;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
+import java.util.HashMap;
 
 @ToString(of = "buckets")
 public class MyMap<K, V> {
-    private ArrayList<Entry<K, V>> buckets;
+    private Entry<K, V>[] buckets = new Entry[INITIAL_CAPACITY];
     private static final int INITIAL_CAPACITY = 1 << 4; // 16
-
     private int size = 0;
-
-    public MyMap() {
-        buckets = new ArrayList<>(INITIAL_CAPACITY);
-    }
 
     public void put(K key, V value) {
         Entry<K, V> entry = new Entry<>(key, value, null);
 
         int bucket = getBucketIndex(key);
 
-        Entry<K, V> existing = buckets.get(bucket);
+        Entry<K, V> existing = buckets[bucket];
         if (existing == null) {
-            buckets.set(bucket, entry);
+            buckets[bucket] = entry;
             size++;
         } else {
             // compare the keys see if key already exists
@@ -44,7 +39,7 @@ public class MyMap<K, V> {
 
     public V get(K key) {
         // return buckets.get(getBucketIndex(key)).find(key);
-        Entry<K, V> bucket = buckets.get(getBucketIndex(key));
+        Entry<K, V> bucket = buckets[getBucketIndex(key)];
 
         while (bucket != null) {
             if (key == bucket.key) {
@@ -56,15 +51,15 @@ public class MyMap<K, V> {
     }
 
     private int getBucketIndex(K key) {
-        return getHash(key) % getBucketSize();
+        return getHash(key) % getBucketsSize();
     }
 
     public int size() {
         return size;
     }
 
-    private int getBucketSize() {
-        return buckets.size();
+    public int getBucketsSize() {
+        return buckets.length;
     }
 
     private int getHash(K key) {
