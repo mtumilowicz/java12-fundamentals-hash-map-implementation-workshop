@@ -22,7 +22,7 @@ class MyMapTest extends Specification {
         map.size() == 2
         map.get('Aa') == 'Aa'
         map.get('BB') == 'BB'
-        map.getBucket('Aa').size() == 2
+        map.bucket('Aa').size() == 2
     }
 
     def 'put non null key'() {

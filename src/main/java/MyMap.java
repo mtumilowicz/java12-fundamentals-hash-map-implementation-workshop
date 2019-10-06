@@ -16,16 +16,14 @@ public class MyMap<K, V> {
     }
 
     public void put(K key, V value) {
-        Bucket<K, V> bucket = buckets.get(getBucketIndex(key));
-        bucket.add(key, value);
+        bucket(key).add(key, value);
     }
 
     public V get(K key) {
-        Bucket<K, V> bucket = buckets.get(getBucketIndex(key));
-        return bucket.get(key);
+        return bucket(key).get(key);
     }
 
-    public Bucket<K, V> getBucket(K key) {
+    public Bucket<K, V> bucket(K key) {
         return buckets.get(getBucketIndex(key));
     }
 
