@@ -2,11 +2,12 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 @EqualsAndHashCode(of = {"key", "value"})
-@ToString(of = {"key", "value"})
+@ToString
 @AllArgsConstructor
 class Entry<K, V> {
     final K key;
@@ -38,5 +39,10 @@ class Entry<K, V> {
         /*
                 return Stream.iterate(this, n -> nonNull(n.next), n -> n.next).findAny();
          */
+    }
+
+    public long size() {
+        return Stream.iterate(this, Objects::nonNull, x -> x.next)
+                .count();
     }
 }

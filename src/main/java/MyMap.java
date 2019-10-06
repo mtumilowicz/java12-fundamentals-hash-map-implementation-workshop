@@ -50,6 +50,10 @@ public class MyMap<K, V> {
         return null;
     }
 
+    public Entry<K, V> getEntry(K key) {
+        return buckets[getBucketIndex(key)];
+    }
+
     private int getBucketIndex(K key) {
         return getHash(key) % getBucketsSize();
     }

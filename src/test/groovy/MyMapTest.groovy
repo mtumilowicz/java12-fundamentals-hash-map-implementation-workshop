@@ -13,6 +13,18 @@ class MyMapTest extends Specification {
         map.get(null) == null
     }
 
+    def 'put with same hash'() {
+        when:
+        map.put('Aa', 'Aa')
+        map.put('BB', 'BB')
+
+        then:
+        map.size() == 2
+        map.get('Aa') == 'Aa'
+        map.get('BB') == 'BB'
+        map.getEntry('Aa').size() == 2
+    }
+
     def 'put non null key'() {
         when:
         map.put('a', 'a')
