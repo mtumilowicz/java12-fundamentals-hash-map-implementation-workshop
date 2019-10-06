@@ -47,6 +47,12 @@ class MyMapTest extends Specification {
         map.get(null) == 'a'
     }
 
+    def 'get non existing key'() {
+        expect:
+        map.size() == 0
+        map.get('a') == null
+    }
+
     def 'replace'() {
         when:
         map.put('a', 'a')
