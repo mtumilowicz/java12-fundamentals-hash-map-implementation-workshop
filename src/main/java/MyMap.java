@@ -12,7 +12,7 @@ public class MyMap<K, V> {
     public MyMap() {
         IntStream.iterate(0, bucket -> bucket < INITIAL_CAPACITY, bucket -> ++bucket)
                 .mapToObj(Bucket<K, V>::new)
-                .forEach(bucket -> buckets.add(bucket));
+                .forEach(buckets::add);
     }
 
     public void put(K key, V value) {
