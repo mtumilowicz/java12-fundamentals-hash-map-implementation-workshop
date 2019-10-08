@@ -1,8 +1,8 @@
 import spock.lang.Specification
 
-class MyMapTest extends Specification {
+class MyHashMapTest extends Specification {
 
-    def map = new MyMap<String, String>()
+    def map = new MyHashMap<String, String>()
 
     def 'put null key and null value'() {
         when:
@@ -22,7 +22,6 @@ class MyMapTest extends Specification {
         map.size() == 2
         map.get('Aa') == 'Aa'
         map.get('BB') == 'BB'
-        map.bucket('Aa').size() == 2
     }
 
     def 'put non null key'() {
@@ -77,11 +76,6 @@ class MyMapTest extends Specification {
 
     def 'initial size'() {
         expect:
-        map.getBucketsSize() == 16
-    }
-
-    def 'hash of null'() {
-        expect:
-        map.hash(null) == 0
+        map.countBuckets() == 16
     }
 }
