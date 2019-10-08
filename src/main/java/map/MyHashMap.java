@@ -1,3 +1,5 @@
+package map;
+
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 

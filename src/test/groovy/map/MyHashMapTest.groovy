@@ -1,3 +1,6 @@
+package map
+
+import map.MyHashMap
 import spock.lang.Specification
 
 class MyHashMapTest extends Specification {
