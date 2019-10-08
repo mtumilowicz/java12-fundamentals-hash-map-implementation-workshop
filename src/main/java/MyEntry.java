@@ -11,15 +11,15 @@ import java.util.function.Predicate;
 @ToString
 @AllArgsConstructor
 @Getter
-class Entry<K, V> {
+class MyEntry<K, V> {
     private final K key;
     private V value;
 
-    static <K, V> Consumer<Entry<K, V>> setValue(V value) {
+    static <K, V> Consumer<MyEntry<K, V>> setValue(V value) {
         return entry -> entry.value = value;
     }
 
-    static <K, V> Predicate<Entry<K, V>> byKey(K key) {
+    static <K, V> Predicate<MyEntry<K, V>> byKey(K key) {
         return entry -> Objects.equals(entry.key, key);
     }
 }

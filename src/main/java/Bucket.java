@@ -7,20 +7,20 @@ import java.util.LinkedList;
 @RequiredArgsConstructor
 public class Bucket<K, V> {
     final int i;
-    final LinkedList<Entry<K, V>> entries = new LinkedList<>();
+    final LinkedList<MyEntry<K, V>> entries = new LinkedList<>();
 
     void add(K key, V value) {
         entries.stream()
-                .filter(Entry.byKey(key))
+                .filter(MyEntry.byKey(key))
                 .findFirst()
-                .ifPresentOrElse(Entry.setValue(value), () -> entries.add(new Entry<>(key, value)));
+                .ifPresentOrElse(MyEntry.setValue(value), () -> entries.add(new MyEntry<>(key, value)));
     }
 
     V get(K key) {
         return entries.stream()
-                .filter(Entry.byKey(key))
+                .filter(MyEntry.byKey(key))
                 .findFirst()
-                .map(Entry::getValue)
+                .map(MyEntry::getValue)
                 .orElse(null);
     }
 
