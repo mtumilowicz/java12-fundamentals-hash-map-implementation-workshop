@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 @ToString
 @RequiredArgsConstructor
-public class Bucket<K, V> {
+class Bucket<K, V> {
     final int i;
     final LinkedList<MyEntry<K, V>> entries = new LinkedList<>();
 
@@ -24,7 +24,7 @@ public class Bucket<K, V> {
                 .orElse(null);
     }
 
-    public long size() {
+    long size() {
         return entries.size();
     }
 }
