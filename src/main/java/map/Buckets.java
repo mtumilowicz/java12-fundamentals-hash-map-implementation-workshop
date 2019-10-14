@@ -35,8 +35,8 @@ class Buckets<K, V> {
                 .flatMap(Collection::stream)
                 .forEach(entry -> resized.insert(entry.getKey(), entry.getValue()));
 
-        buckets.clear();
-        buckets.addAll(resized.buckets);
+        this.buckets.clear();
+        this.buckets.addAll(resized.buckets);
     }
 
     long countElementsInBuckets() {
