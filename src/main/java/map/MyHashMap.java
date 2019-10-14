@@ -7,7 +7,7 @@ import lombok.ToString;
 @RequiredArgsConstructor
 public class MyHashMap<K, V> {
     private final Buckets<K, V> buckets;
-    private static final int INITIAL_CAPACITY = 1 << 4; // 16
+    private static final int INITIAL_CAPACITY = 1 << 4;
 
     public MyHashMap() {
         this.buckets = Buckets.of(INITIAL_CAPACITY);
