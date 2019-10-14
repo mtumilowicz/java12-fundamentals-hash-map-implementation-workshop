@@ -1,5 +1,7 @@
 # java13-fundamentals-hash-map-implementation
 
+https://mincong-h.github.io/2018/04/08/learning-hashmap/
+
 1. initial capacity
 1. resize (capacity factor)
 1. what to do with null? null key - possible? null value - possible?
