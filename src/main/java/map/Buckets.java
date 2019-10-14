@@ -22,7 +22,7 @@ class Buckets<K, V> {
         return new Buckets<>(buckets);
     }
 
-    Buckets<K, V> resize() {
+    void resize() {
         var buckets = new ArrayList<Bucket<K, V>>();
 
         IntStream.iterate(0, bucket -> bucket < 2 * countBuckets(), bucket -> ++bucket)
@@ -35,7 +35,8 @@ class Buckets<K, V> {
                 .flatMap(Collection::stream)
                 .forEach(entry -> resized.insert(entry.getKey(), entry.getValue()));
 
-        return resized;
+        buckets.clear();
+        buckets.addAll(resized.buckets);
     }
 
     long countElementsInBuckets() {
