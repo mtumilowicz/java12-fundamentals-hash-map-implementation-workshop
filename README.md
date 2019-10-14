@@ -8,3 +8,5 @@
 1. thread safe vs not thread safe
 1. immutable or mutable?
 1. thread safe or not? what kind of thread safe?
+1. growing based on total size keeps the collision lists at a reasonable size with realistic imperfect hash function, 
+because it’s reasonable to expect every hash function at least makes a best attempt to distribute hash codes
