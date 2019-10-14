@@ -23,13 +23,7 @@ class Buckets<K, V> {
     }
 
     void resize() {
-        var buckets = new ArrayList<Bucket<K, V>>();
-
-        IntStream.iterate(0, bucket -> bucket < 2 * countBuckets(), bucket -> ++bucket)
-                .mapToObj(Bucket<K, V>::new)
-                .forEach(buckets::add);
-
-        var resized = new Buckets<>(buckets);
+        Buckets<K, V> resized = of(2 * countBuckets());
 
         buckets.stream().map(x -> x.entries)
                 .flatMap(Collection::stream)
