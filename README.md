@@ -1,6 +1,7 @@
 # java13-fundamentals-hash-map-implementation
 
-https://mincong-h.github.io/2018/04/08/learning-hashmap/
+https://mincong-h.github.io/2018/04/08/learning-hashmap/  
+https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html
 
 1. initial capacity
 1. resize (capacity factor)
