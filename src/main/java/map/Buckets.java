@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
@@ -19,6 +20,22 @@ class Buckets<K, V> {
                 .forEach(buckets::add);
 
         return new Buckets<>(buckets);
+    }
+
+    Buckets<K, V> resize() {
+        var buckets = new ArrayList<Bucket<K, V>>();
+
+        IntStream.iterate(0, bucket -> bucket < 2 * countBuckets(), bucket -> ++bucket)
+                .mapToObj(Bucket<K, V>::new)
+                .forEach(buckets::add);
+
+        var resized = new Buckets<>(buckets);
+
+        buckets.stream().map(x -> x.entries)
+                .flatMap(Collection::stream)
+                .forEach(entry -> resized.insert(entry.getKey(), entry.getValue()));
+
+        return resized;
     }
 
     long countElementsInBuckets() {
