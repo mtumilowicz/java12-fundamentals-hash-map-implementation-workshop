@@ -7,18 +7,18 @@ import lombok.ToString;
 @AllArgsConstructor
 public class MyHashMap<K, V> {
     private Buckets<K, V> buckets;
-    private int capacityAsPowerOfTwo;
-    private static final int INITIAL_CAPACITY_AS_POWER_OF_TWO = 4;
+    private int exponent;
+    private static final int INITIAL_EXPONENT = 4;
     private static final double LOAD_FACTOR = 0.75;
 
     public MyHashMap() {
-        this.buckets = Buckets.of(powerOfTwo(INITIAL_CAPACITY_AS_POWER_OF_TWO));
-        this.capacityAsPowerOfTwo = INITIAL_CAPACITY_AS_POWER_OF_TWO;
+        this.buckets = Buckets.of(powerOfTwo(INITIAL_EXPONENT));
+        this.exponent = INITIAL_EXPONENT;
     }
 
     public void put(K key, V value) {
-        if (size() > powerOfTwo(capacityAsPowerOfTwo) * LOAD_FACTOR) {
-            resize(++capacityAsPowerOfTwo);
+        if (size() > countBuckets() * LOAD_FACTOR) {
+            resize(++exponent);
         }
         buckets.insert(key, value);
     }
@@ -32,14 +32,14 @@ public class MyHashMap<K, V> {
     }
 
     public int countBuckets() {
-        return powerOfTwo(capacityAsPowerOfTwo);
+        return powerOfTwo(exponent);
     }
 
-    private void resize(int powerOfTwo) {
-        buckets = buckets.rehashWithSize(powerOfTwo(powerOfTwo));
+    private void resize(int exponent) {
+        buckets = buckets.rehashWithSize(powerOfTwo(exponent));
     }
 
-    private int powerOfTwo(int powerOfTwo) {
-        return 1 << powerOfTwo;
+    private int powerOfTwo(int exponent) {
+        return 1 << exponent;
     }
 }
