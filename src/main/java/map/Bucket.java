@@ -1,5 +1,6 @@
 package map;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
@@ -7,9 +8,10 @@ import java.util.LinkedList;
 
 @ToString
 @RequiredArgsConstructor
+@Getter
 class Bucket<K, V> {
-    final int i;
-    final LinkedList<MyEntry<K, V>> entries = new LinkedList<>();
+    private final int i;
+    private final LinkedList<MyEntry<K, V>> entries = new LinkedList<>();
 
     void add(K key, V value) {
         entries.stream()

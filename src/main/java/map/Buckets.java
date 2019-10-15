@@ -22,12 +22,12 @@ class Buckets<K, V> {
         return new Buckets<>(buckets);
     }
 
-    void resize() {
-        Buckets<K, V> resized = of(2 * countBuckets());
+    void resize(int newSize) {
+        Buckets<K, V> resized = of(newSize);
 
-        buckets.stream().map(x -> x.entries)
+        buckets.stream().map(Bucket::getEntries)
                 .flatMap(Collection::stream)
-                .forEach(entry -> resized.insert(entry.getKey(), entry.getValue()));
+                .forEach(resized::insert);
 
         this.buckets.clear();
         this.buckets.addAll(resized.buckets);
@@ -46,6 +46,10 @@ class Buckets<K, V> {
 
     void insert(K key, V value) {
         bucket(key).add(key, value);
+    }
+
+    void insert(MyEntry<K, V> entry) {
+        bucket(entry.getKey()).add(entry.getKey(), entry.getValue());
     }
 
     V get(K key) {
