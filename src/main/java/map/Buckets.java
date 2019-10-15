@@ -22,7 +22,7 @@ class Buckets<K, V> {
         return new Buckets<>(buckets);
     }
 
-    Buckets<K, V> rehashTo(int newSize) {
+    Buckets<K, V> rehashWithSize(int newSize) {
         Buckets<K, V> resized = of(newSize);
 
         buckets.stream().map(Bucket::getEntries)

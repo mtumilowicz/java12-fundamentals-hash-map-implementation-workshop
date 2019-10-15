@@ -12,12 +12,12 @@ public class MyHashMap<K, V> {
     private static final double LOAD_FACTOR = 0.75;
 
     public MyHashMap() {
-        this.buckets = Buckets.of(1 << INITIAL_CAPACITY_AS_POWER_OF_TWO);
+        this.buckets = Buckets.of(powerOfTwo(INITIAL_CAPACITY_AS_POWER_OF_TWO));
         this.capacityAsPowerOfTwo = INITIAL_CAPACITY_AS_POWER_OF_TWO;
     }
 
     public void put(K key, V value) {
-        if (size() > (1 << capacityAsPowerOfTwo) * LOAD_FACTOR) {
+        if (size() > powerOfTwo(capacityAsPowerOfTwo) * LOAD_FACTOR) {
             resize(++capacityAsPowerOfTwo);
         }
         buckets.insert(key, value);
@@ -32,10 +32,14 @@ public class MyHashMap<K, V> {
     }
 
     public int countBuckets() {
-        return 1 << capacityAsPowerOfTwo;
+        return powerOfTwo(capacityAsPowerOfTwo);
     }
 
     private void resize(int powerOfTwo) {
-        buckets = buckets.rehashTo(1 << powerOfTwo);
+        buckets = buckets.rehashWithSize(powerOfTwo(powerOfTwo));
+    }
+
+    private int powerOfTwo(int powerOfTwo) {
+        return 1 << powerOfTwo;
     }
 }
