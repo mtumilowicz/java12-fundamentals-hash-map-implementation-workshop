@@ -84,11 +84,32 @@ class MyHashMapTest extends Specification {
 
     def 'number of buckets after resize should be consecutive power of two'() {
         when:
-        (0..<16).each {
-            map.put(it.toString(), it.toString())
-        }
+        (0..<16).collect { it.toString() }
+                .each { map.put(it, it) }
 
         then:
         map.countBuckets() == 32
+    }
+
+    def 'number of elements after resize stays unchanged'() {
+        when:
+        (0..<16).collect { it.toString() }
+                .each { map.put(it, it) }
+
+        then:
+        map.size() == 16
+    }
+
+    def 'elements after resize stays unchanged'() {
+        when:
+        (0..<16).collect { it.toString() }
+                .each { map.put(it, it) }
+
+        then:
+        map.get(key) == value
+
+        where:
+        key << (0..<16).collect { it.toString() }
+        value << (0..<16).collect { it.toString() }
     }
 }

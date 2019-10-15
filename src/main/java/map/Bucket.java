@@ -14,14 +14,14 @@ class Bucket<K, V> {
 
     void add(K key, V value) {
         entries.stream()
-                .filter(MyEntry.byKey(key))
+                .filter(MyEntry.hasKey(key))
                 .findFirst()
                 .ifPresentOrElse(MyEntry.setValue(value), () -> entries.add(new MyEntry<>(key, value)));
     }
 
     V get(K key) {
         return entries.stream()
-                .filter(MyEntry.byKey(key))
+                .filter(MyEntry.hasKey(key))
                 .findFirst()
                 .map(MyEntry::getValue)
                 .orElse(null);

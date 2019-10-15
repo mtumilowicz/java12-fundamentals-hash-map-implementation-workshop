@@ -21,7 +21,7 @@ class MyEntry<K, V> {
         return entry -> entry.value = value;
     }
 
-    static <K, V> Predicate<MyEntry<K, V>> byKey(K key) {
+    static <K, V> Predicate<MyEntry<K, V>> hasKey(K key) {
         return entry -> Objects.equals(entry.key, key);
     }
 }

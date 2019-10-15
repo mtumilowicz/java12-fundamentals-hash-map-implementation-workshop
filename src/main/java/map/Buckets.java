@@ -39,20 +39,21 @@ class Buckets<K, V> {
                 .sum();
     }
 
-    private int countBuckets() {
-        return buckets.size();
-    }
-
     void insert(K key, V value) {
         bucket(key).add(key, value);
     }
+
+    V get(K key) {
+        return bucket(key).get(key);
+    }
+
 
     private void insert(MyEntry<K, V> entry) {
         bucket(entry.getKey()).add(entry.getKey(), entry.getValue());
     }
 
-    V get(K key) {
-        return bucket(key).get(key);
+    private int countBuckets() {
+        return buckets.size();
     }
 
     private Bucket<K, V> bucket(K key) {
