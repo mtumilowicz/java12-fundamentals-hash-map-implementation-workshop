@@ -1,19 +1,25 @@
 package map;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.ToString;
 
 @ToString(of = "buckets")
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class MyHashMap<K, V> {
-    private final Buckets<K, V> buckets;
-    private static final int INITIAL_CAPACITY = 1 << 4;
+    private Buckets<K, V> buckets;
+    private int capacity;
+    private static final int INITIAL_CAPACITY_AS_POWER_OF_TWO = 4;
+    private static final double LOAD_FACTOR = 0.75;
 
     public MyHashMap() {
-        this.buckets = Buckets.of(INITIAL_CAPACITY);
+        this.buckets = Buckets.of(1 << INITIAL_CAPACITY_AS_POWER_OF_TWO);
+        this.capacity = INITIAL_CAPACITY_AS_POWER_OF_TWO;
     }
 
     public void put(K key, V value) {
+        if (size() > (1 << capacity) * LOAD_FACTOR) {
+            resize(++capacity);
+        }
         buckets.insert(key, value);
     }
 
@@ -26,6 +32,10 @@ public class MyHashMap<K, V> {
     }
 
     public int countBuckets() {
-        return buckets.countBuckets();
+        return 1 << capacity;
+    }
+
+    private void resize(int powerOfTwo) {
+        buckets = buckets.rehashTo(1 << powerOfTwo);
     }
 }

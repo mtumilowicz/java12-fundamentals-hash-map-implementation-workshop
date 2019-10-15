@@ -81,4 +81,14 @@ class MyHashMapTest extends Specification {
         expect:
         map.countBuckets() == 16
     }
+
+    def 'number of buckets after resize should be consecutive power of two'() {
+        when:
+        (0..<16).each {
+            map.put(it.toString(), it.toString())
+        }
+
+        then:
+        map.countBuckets() == 32
+    }
 }
