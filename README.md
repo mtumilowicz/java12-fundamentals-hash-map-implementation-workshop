@@ -5,7 +5,7 @@ https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html
 https://www.javarticles.com/2012/11/hashmap-faq.html
 
 1. initial capacity
-1. resize (capacity factor)
+1. resize (capacity factor) - how to reasonably define load factor?
 1. what to do with null? null key - possible? null value - possible?
 1. get should return Optional ?
 1. what to do in case of collision? linkedlist vs balanced tree (threshold)
