@@ -10,7 +10,6 @@ import java.util.LinkedList;
 @RequiredArgsConstructor
 @Getter
 class Bucket<K, V> {
-    private final int i;
     private final LinkedList<MyEntry<K, V>> entries = new LinkedList<>();
 
     void add(K key, V value) {
