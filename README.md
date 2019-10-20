@@ -4,6 +4,8 @@ https://mincong-h.github.io/2018/04/08/learning-hashmap/
 https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html  
 https://www.javarticles.com/2012/11/hashmap-faq.html
 
+TDD - everybody knows that TDD stand for test driven development; however people too often concentrate on the words: test and development, and don't conciders what the world driven really implies. For tests to drive development they must do more than just test that code performs its required functionality: they must clearly express that required functionality to the reader. - Nat Pryce and Steve Freeman, Are your tests really driving your development?
+
 1. initial capacity
 1. resize (capacity factor) - how to reasonably define load factor?
 1. what to do with null? null key - possible? null value - possible?
