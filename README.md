@@ -4,7 +4,12 @@ https://mincong-h.github.io/2018/04/08/learning-hashmap/
 https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html  
 https://www.javarticles.com/2012/11/hashmap-faq.html
 
-TDD - everybody knows that TDD stand for test driven development; however people too often concentrate on the words: test and development, and don't conciders what the world driven really implies. For tests to drive development they must do more than just test that code performs its required functionality: they must clearly express that required functionality to the reader. - Nat Pryce and Steve Freeman, Are your tests really driving your development?
+> TDD - everybody knows that TDD stand for test driven development; however people too often concentrate on the 
+words: test and development, and don't conciders what the world driven really implies. For tests to drive 
+development they must do more than just test that code performs its required functionality: they must clearly 
+express that required functionality to the reader.  
+>
+> Nat Pryce and Steve Freeman, Are your tests really driving  your development?
 
 1. initial capacity
 1. resize (capacity factor) - how to reasonably define load factor?
@@ -23,12 +28,13 @@ because it’s reasonable to expect every hash function at least makes a best at
    hash & (capacity - 1)
    and when capacity is a power of two, both calculations actually do the same thing.
    
-When you subtract 1 from a number which is a power of 2, what you get is a number whose binary representation 
-is all 1. E.g. 16 is a power of 2. If you subtract 1 from it, you get 15, whose binary representation is 1111. 
-Now, if you do a bitwise AND of any number with 1111, you're going to get the last 4 bits of the number which, 
-in other words, is equivalent to the modulo of the number by 16 (Division operation is usually an expensive operation. 
-Hence, bitwise operation is usually preferred over division). These last 4 bits will evaluate to any number from 
-0 to 15 which are the indexes of your underlying array.
+* `2^n - 1` is a number whose binary representation is all 1 
+* `16 - 1 = 15`, whose binary representation is `1111`
+* if you do a bitwise `AND` of any number with `1111`, you're going to get the last 4 bits of the number
+* it is equivalent to the modulo of the number by `16`
+* division operation is usually an expensive operation
+* bitwise operation is usually preferred over division
+* last 4 bits will evaluate to any number from  0 to 15
 
 You could make the size 17 instead. In that case, after subtracting 1 from it, you'd get 16 which is 10000 in binary. 
 Now you do a bit wise AND of a number with 16, you'll lose all bits of the number except the 5th bit from the end. 
