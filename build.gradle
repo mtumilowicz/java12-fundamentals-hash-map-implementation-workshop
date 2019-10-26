@@ -4,14 +4,14 @@ plugins {
     id 'groovy'
 }
 
-group 'java13-fundamentals-hash-map-implementation'
+group 'java12-fundamentals-hash-map-implementation'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 12 // bug with jdk13: https://github.com/gradle/gradle/issues/8681
+sourceCompatibility = 12
 targetCompatibility = 12
 
 dependencies {
