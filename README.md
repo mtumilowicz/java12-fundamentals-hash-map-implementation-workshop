@@ -1,4 +1,4 @@
-# java12-fundamentals-hash-map-implementation
+# java12-fundamentals-hash-map-implementation-workshop
 
 https://mincong-h.github.io/2018/04/08/learning-hashmap/  
 https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html  
