@@ -17,6 +17,7 @@ express that required functionality to the reader.
 1. get should return Optional ?
 1. what to do in case of collision? linkedlist vs balanced tree (threshold)
 1. thread safe vs not thread safe
+    * approaches to thread safety
 1. immutable or mutable?
 1. thread safe or not? what kind of thread safe?
 1. validations?
