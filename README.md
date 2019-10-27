@@ -36,13 +36,15 @@ because it’s reasonable to expect every hash function at least makes a best at
 * bitwise operation is usually preferred over division
 * last 4 bits will evaluate to any number from  0 to 15
 
-You could make the size 17 instead. In that case, after subtracting 1 from it, you'd get 16 which is 10000 in binary. 
-Now you do a bit wise AND of a number with 16, you'll lose all bits of the number except the 5th bit from the end. 
-So, regardless of the number you take, the array index will be either 16 or 0. That means you'd have lot of 
-collisions, which in turn means poor performance. Instead of O(1) for retrieval, you'd need O(log n), because 
-when collision occurs, all the nodes in a given bucket are going to be stored in a red black tree. Not only that. 
-In case you are using a ConcurrentHashMap in a multithreaded environmemt, you'd experience lot of synchronizations, 
-because all the new additions will end up in a very small number of buckets (only two - 0 and 16 in the above case) 
+* suppose we use the size 17 instead
+* 17 - 1 = 16 which is 10000 in binary 
+* bitwise AND with 16 - you'll lose all bits except the 5th bit from the end
+* so, regardless of the number you take, the bucket index will be either 16 or 0
+* that means you'd have lot of collisions, which in turn means poor performance
+* instead of `O(1)` for retrieval, you'd need `O(log n)` (when collision occurs, all the nodes in a given bucket 
+are stored in a red black tree) 
+* in case of `ConcurrentHashMap` in a multithreaded environment, you'd experience lot of synchronizations, 
+* all the new additions will end up in a very small number of buckets (only two - 0 and 16 in the above case) 
 and when you add new nodes in a bucket that already has other nodes, the bucket will be locked to avoid data 
-inconsistancies due to modifications by multiple threads. Therefore, other threads trying to add new nodes need to 
-wait until the current thread release the lock.
+inconsistencies due to modifications by multiple threads
+* therefore, other threads trying to add new nodes need to wait until the current thread release the lock
