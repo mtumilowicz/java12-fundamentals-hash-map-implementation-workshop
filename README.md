@@ -1,5 +1,6 @@
 # java12-fundamentals-hash-map-implementation-workshop
 
+http://openjdk.java.net/jeps/180
 https://mincong-h.github.io/2018/04/08/learning-hashmap/  
 https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html  
 https://www.javarticles.com/2012/11/hashmap-faq.html
@@ -44,6 +45,8 @@ by the right operand and shifted values are filled up with zeros
           262,145 | 0000 0000 0000 0100 0000 0000 0000 0001 |      1 |                   5
           524,289 | 0000 0000 0000 1000 0000 0000 0000 0001 |      1 |                   1
     ```
+* Improve the performance of java.util.HashMap under high hash-collision conditions by using balanced trees rather 
+than linked lists to store map entries.
 * when a bucket becomes too big (currently: TREEIFY_THRESHOLD = 8), HashMap dynamically replaces it with an ad-hoc 
 implementation of tree map. This way rather than having pessimistic O(n) we get much better O(logn). How does it work? 
 Well, previously entries with conflicting keys were simply appended to linked list, which later had to be traversed. 
