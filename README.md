@@ -44,7 +44,17 @@ by the right operand and shifted values are filled up with zeros
           262,145 | 0000 0000 0000 0100 0000 0000 0000 0001 |      1 |                   5
           524,289 | 0000 0000 0000 1000 0000 0000 0000 0001 |      1 |                   1
     ```
-    
+* when a bucket becomes too big (currently: TREEIFY_THRESHOLD = 8), HashMap dynamically replaces it with an ad-hoc 
+implementation of tree map. This way rather than having pessimistic O(n) we get much better O(logn). How does it work? 
+Well, previously entries with conflicting keys were simply appended to linked list, which later had to be traversed. 
+Now HashMap promotes list into binary tree, using hash code as a branching variable. If two hashes are different but 
+ended up in the same bucket, one is considered bigger and goes to the right. If hashes are equal (as in our case), 
+HashMap hopes that the keys are Comparable, so that it can establish some order. This is not a requirement of HashMap 
+keys, but apparently a good practice. If keys are not comparable, don't expect any performance improvements in case of 
+heavy hash collisions.
+
+
+
     
 1. initial capacity
 1. resize (capacity factor) - how to reasonably define load factor?
