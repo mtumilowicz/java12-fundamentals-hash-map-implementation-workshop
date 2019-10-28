@@ -38,17 +38,6 @@ class MyHashMapTest extends Specification {
         map.size() == 1
     }
 
-    def 'put with same hash'() {
-        when:
-        map.put('Aa', 'Aa')
-        map.put('BB', 'BB')
-
-        then:
-        map.size() == 2
-        map.get('Aa') == 'Aa'
-        map.get('BB') == 'BB'
-    }
-
     def 'get existing non null key'() {
         when:
         map.put('a', 'a')
@@ -69,6 +58,17 @@ class MyHashMapTest extends Specification {
         expect:
         map.size() == 0
         map.get('a') == null
+    }
+
+    def 'put with same hash'() {
+        when:
+        map.put('Aa', 'Aa')
+        map.put('BB', 'BB')
+
+        then:
+        map.size() == 2
+        map.get('Aa') == 'Aa'
+        map.get('BB') == 'BB'
     }
 
     def 'replace'() {

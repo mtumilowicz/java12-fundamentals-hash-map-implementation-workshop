@@ -31,7 +31,7 @@ public class MyHashMap<K, V> {
         return buckets.countElementsInBuckets();
     }
 
-    public int countBuckets() {
+    int countBuckets() {
         return powerOfTwo(exponent);
     }
 
