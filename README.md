@@ -30,20 +30,22 @@ by the right operand and shifted values are filled up with zeros
         return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
     }
     ```    
-    * `XOR` - what for?
-    * `>>>` - what for?
-    * 16 in binary - 1111
+    * `XOR` - cheapest possible way to reduce systematic lossage
+        * XOR has the best bit shuffling properties
+        * OR will on average produce 3/4 one-bits. AND on the other hand will produce on average 3/4 null-bits. 
+        Only XOR has an even one-bit vs. null-bit distribution. That makes it so valuable for hash-code generation
+    * `>>>` - what for? in order to use these highest bits
+    * as a result, the modulo obtained has less collision
     ```
-    h             | h (binary)                              | h % 15 | (h ^ h \>\>\> 16) % 15
+    h             | h (binary)                              | h % 32 | (h ^ h \>\>\> 16) % 32
     ------------: | :-------------------------------------: | -----: | ------------------:
-          17 | 0000 0000 0000 0000 0000 0000 0001 0001 |      1 |                   0
-          33 | 0000 0000 0000 0000 0000 0000 0010 0001 |      1 |                   3
-          262,145 | 0000 0000 0000 0000 0000 0000 0100 0001 |      1 |                   5
-          524,289 | 0000 0000 0000 0000 0000 0000 1000 0001 |      1 |                   1
+           65,537 | 0000 0000 0000 0001 0000 0000 0000 0001 |      1 |                   0
+          131,073 | 0000 0000 0000 0010 0000 0000 0000 0001 |      1 |                   3
+          262,145 | 0000 0000 0000 0100 0000 0000 0000 0001 |      1 |                   5
+          524,289 | 0000 0000 0000 1000 0000 0000 0000 0001 |      1 |                   1
     ```
     
     
-1. 
 1. initial capacity
 1. resize (capacity factor) - how to reasonably define load factor?
     * growing based on total size keeps the collision lists at a reasonable size with realistic imperfect hash function, 
