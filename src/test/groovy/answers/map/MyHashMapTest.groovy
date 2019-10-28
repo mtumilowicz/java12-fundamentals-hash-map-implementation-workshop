@@ -6,7 +6,7 @@ class MyHashMapTest extends Specification {
 
     def map = new MyHashMap<String, String>()
 
-    def 'put null key and null value'() {
+    def 'put(null, null) is allowed'() {
         when:
         map.put(null, null)
 
@@ -14,7 +14,7 @@ class MyHashMapTest extends Specification {
         map.size() == 1
     }
 
-    def 'put null key and non null value'() {
+    def 'put(null, non null) is allowed'() {
         when:
         map.put(null, 'a')
 
@@ -22,7 +22,7 @@ class MyHashMapTest extends Specification {
         map.size() == 1
     }
 
-    def 'put non null key and null value'() {
+    def 'put(non null, null) is allowed'() {
         when:
         map.put('a', null)
 
@@ -30,7 +30,7 @@ class MyHashMapTest extends Specification {
         map.size() == 1
     }
 
-    def 'put non null key and non null value'() {
+    def 'put(non null, non null) is allowed'() {
         when:
         map.put('a', 'a')
 
@@ -38,7 +38,7 @@ class MyHashMapTest extends Specification {
         map.size() == 1
     }
 
-    def 'get existing non null key'() {
+    def 'get(existing non null key) should retrieve corresponding value'() {
         when:
         map.put('a', 'a')
 
@@ -46,7 +46,7 @@ class MyHashMapTest extends Specification {
         map.get('a') == 'a'
     }
 
-    def 'get existing null key'() {
+    def 'get(existing null key) should retrieve corresponding value'() {
         when:
         map.put(null, 'a')
 
@@ -54,7 +54,7 @@ class MyHashMapTest extends Specification {
         map.get(null) == 'a'
     }
 
-    def 'get non existing key'() {
+    def 'get(non existing key) should return null'() {
         expect:
         map.size() == 0
         map.get('a') == null
@@ -71,7 +71,7 @@ class MyHashMapTest extends Specification {
         map.get('BB') == 'BB'
     }
 
-    def 'replace'() {
+    def 'when element with the key that already exists is put - existing entry is replaced'() {
         when:
         map.put('a', 'a')
         map.put('a', 'b')
@@ -81,7 +81,12 @@ class MyHashMapTest extends Specification {
         map.get('a') == 'b'
     }
 
-    def 'initial size'() {
+    def 'initial size should be 0'() {
+        expect:
+        map.size() == 0
+    }
+
+    def 'initial number of buckets should be 16'() {
         expect:
         map.countBuckets() == 16
     }
@@ -95,7 +100,7 @@ class MyHashMapTest extends Specification {
         map.countBuckets() == 32
     }
 
-    def 'number of elements after resize stays unchanged'() {
+    def 'number of elements after resize should stay unchanged'() {
         when:
         (0..<16).collect { it.toString() }
                 .each { map.put(it, it) }
@@ -104,7 +109,7 @@ class MyHashMapTest extends Specification {
         map.size() == 16
     }
 
-    def 'elements after resize stays unchanged'() {
+    def 'elements after resize should stay unchanged'() {
         when:
         (0..<16).collect { it.toString() }
                 .each { map.put(it, it) }
