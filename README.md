@@ -49,6 +49,23 @@ by the right operand and shifted values are filled up with zeros
           262,145 | 0000 0000 0000 0100 0000 0000 0000 0001 |      1 |                   5
           524,289 | 0000 0000 0000 1000 0000 0000 0000 0001 |      1 |                   1
     ```
+1. `getNode`
+    * `tab[(n - 1) & hash]`
+    * **size have to be power of two**: `2^n - 1`, binary representation: all 1 
+    * `16 - 1 = 15`, binary representation: `1111`
+    * bitwise `AND` of any number with `1111` -> last 4 bits of the number
+    * it is equivalent to the modulo of the number by `16`
+    * division operation is usually an expensive operation
+    * bitwise operation is usually preferred over division
+    * last 4 bits will evaluate to any number from  0 to 15
+    * **suppose we use the size 17 instead**
+    * `17 - 1 = 16 `which is `10000` in binary 
+    * bitwise AND with `16` -> lose all bits except the 5th bit from the end
+    * regardless of the number, the bucket index will be either 16 or 0
+    * it means a lot of collisions and poor performance
+    * instead of `O(1)` for retrieval, you'd need `O(log n)` (when collision occurs, all the nodes in a given bucket 
+    are stored in a tree) 
+    * in case of `ConcurrentHashMap` in a multithreaded environment, you'd experience lot of synchronizations
 ## performance
 * **JEP 180: Handle Frequent HashMap Collisions with Balanced Trees**: improve the performance of 
 `HashMap` under high hash-collision conditions by using balanced trees rather than linked lists to store map 
@@ -78,24 +95,3 @@ with a tree (using hash code as a branching variable)
 1. immutable or mutable?
     * consequences - (HATM) - https://en.wikipedia.org/wiki/Hash_array_mapped_trie
 1. validations
-   
-* `2^n - 1` is a number whose binary representation is all 1 
-* `16 - 1 = 15`, whose binary representation is `1111`
-* if you do a bitwise `AND` of any number with `1111`, you're going to get the last 4 bits of the number
-* it is equivalent to the modulo of the number by `16`
-* division operation is usually an expensive operation
-* bitwise operation is usually preferred over division
-* last 4 bits will evaluate to any number from  0 to 15
-
-* suppose we use the size 17 instead
-* `17 - 1 = 16 `which is `10000` in binary 
-* bitwise AND with 16 - you'll lose all bits except the 5th bit from the end
-* so, regardless of the number you take, the bucket index will be either 16 or 0
-* that means you'd have lot of collisions, which in turn means poor performance
-* instead of `O(1)` for retrieval, you'd need `O(log n)` (when collision occurs, all the nodes in a given bucket 
-are stored in a red black tree) 
-* in case of `ConcurrentHashMap` in a multithreaded environment, you'd experience lot of synchronizations, 
-* all the new additions will end up in a very small number of buckets (only two - 0 and 16 in the above case) 
-and when you add new nodes in a bucket that already has other nodes, the bucket will be locked to avoid data 
-inconsistencies due to modifications by multiple threads
-* therefore, other threads trying to add new nodes need to wait until the current thread release the lock
