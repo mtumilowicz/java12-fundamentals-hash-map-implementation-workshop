@@ -13,6 +13,9 @@ express that required functionality to the reader.
 
 1. initial capacity
 1. resize (capacity factor) - how to reasonably define load factor?
+    * growing based on total size keeps the collision lists at a reasonable size with realistic imperfect hash function, 
+    because it’s reasonable to expect every hash function at least makes a best attempt to distribute hash codes
+    * https://github.com/mtumilowicz/hash-function
 1. what to do with null? null key - possible? null value - possible?
 1. get should return Optional ?
 1. what to do in case of collision? linkedlist vs balanced tree (threshold)
@@ -21,13 +24,6 @@ express that required functionality to the reader.
 1. immutable or mutable?
 1. thread safe or not? what kind of thread safe?
 1. validations?
-1. growing based on total size keeps the collision lists at a reasonable size with realistic imperfect hash function, 
-because it’s reasonable to expect every hash function at least makes a best attempt to distribute hash codes
-1. Well, an alternative would be to use
-   hash % capacity
-   but that's actually quite a bit slower than
-   hash & (capacity - 1)
-   and when capacity is a power of two, both calculations actually do the same thing.
    
 * `2^n - 1` is a number whose binary representation is all 1 
 * `16 - 1 = 15`, whose binary representation is `1111`
@@ -38,7 +34,7 @@ because it’s reasonable to expect every hash function at least makes a best at
 * last 4 bits will evaluate to any number from  0 to 15
 
 * suppose we use the size 17 instead
-* 17 - 1 = 16 which is 10000 in binary 
+* `17 - 1 = 16 `which is `10000` in binary 
 * bitwise AND with 16 - you'll lose all bits except the 5th bit from the end
 * so, regardless of the number you take, the bucket index will be either 16 or 0
 * that means you'd have lot of collisions, which in turn means poor performance
