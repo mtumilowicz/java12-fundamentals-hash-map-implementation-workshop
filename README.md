@@ -11,6 +11,39 @@ express that required functionality to the reader.
 >
 > Nat Pryce and Steve Freeman, Are your tests really driving  your development?
 
+# java 12 implementation
+1. signed left shift operator `<<` shifts a bit pattern to the left
+    * e.g. `1 << 4 = 16`
+1. `transient Node<K,V>[] table;`
+    * `HashMap` uses `writeObject` and `readObject` to implement custom serialization rather than 
+    just letting its field be serialized normally
+    * it writes the number of buckets, the total size and each of the entries to the stream and rebuilds 
+    itself from those fields when deserialized
+    * table itself is unnecessary in the serial form, so it's not serialized to save space
+1.  an unsigned right shift operator `>>>`: left operands value is moved right by the number of bits specified 
+by the right operand and shifted values are filled up with zeros
+    * e.g. `A = 60 = 0011 1100` => `A >>> 2 = 0000 1111` and `0000 1111 = 15`
+1. hash function
+    ```
+    static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
+    ```    
+    * `XOR` - what for?
+    * `>>>` - what for?
+    * 16 in binary - 1111
+    ```
+    h             | h (binary)                              | h % 15 | (h ^ h \>\>\> 16) % 15
+    ------------: | :-------------------------------------: | -----: | ------------------:
+          17 | 0000 0000 0000 0000 0000 0000 0001 0001 |      1 |                   0
+          33 | 0000 0000 0000 0000 0000 0000 0010 0001 |      1 |                   3
+          262,145 | 0000 0000 0000 0000 0000 0000 0100 0001 |      1 |                   5
+          524,289 | 0000 0000 0000 0000 0000 0000 1000 0001 |      1 |                   1
+    ```
+    
+    
+1. 
 1. initial capacity
 1. resize (capacity factor) - how to reasonably define load factor?
     * growing based on total size keeps the collision lists at a reasonable size with realistic imperfect hash function, 
