@@ -1,6 +1,5 @@
 package answers.map
 
-import answers.map.MyHashMap
 import spock.lang.Specification
 
 class MyHashMapTest extends Specification {
@@ -13,7 +12,30 @@ class MyHashMapTest extends Specification {
 
         then:
         map.size() == 1
-        map.get(null) == null
+    }
+
+    def 'put null key and non null value'() {
+        when:
+        map.put(null, 'a')
+
+        then:
+        map.size() == 1
+    }
+
+    def 'put non null key and null value'() {
+        when:
+        map.put('a', null)
+
+        then:
+        map.size() == 1
+    }
+
+    def 'put non null key and non null value'() {
+        when:
+        map.put('a', 'a')
+
+        then:
+        map.size() == 1
     }
 
     def 'put with same hash'() {
@@ -27,28 +49,11 @@ class MyHashMapTest extends Specification {
         map.get('BB') == 'BB'
     }
 
-    def 'put non null key'() {
-        when:
-        map.put('a', 'a')
-
-        then:
-        map.size() == 1
-    }
-
-    def 'put null key'() {
-        when:
-        map.put(null, 'a')
-
-        then:
-        map.size() == 1
-    }
-
     def 'get existing non null key'() {
         when:
         map.put('a', 'a')
 
         then:
-        map.size() == 1
         map.get('a') == 'a'
     }
 
@@ -57,7 +62,6 @@ class MyHashMapTest extends Specification {
         map.put(null, 'a')
 
         then:
-        map.size() == 1
         map.get(null) == 'a'
     }
 
