@@ -1,9 +1,9 @@
 # java12-fundamentals-hash-map-implementation-workshop
 
-http://openjdk.java.net/jeps/180
-https://mincong-h.github.io/2018/04/08/learning-hashmap/  
-https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html  
-https://www.javarticles.com/2012/11/hashmap-faq.html
+_Reference_: http://openjdk.java.net/jeps/180
+_Reference_: https://mincong-h.github.io/2018/04/08/learning-hashmap/  
+_Reference_: https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html  
+_Reference_: https://www.javarticles.com/2012/11/hashmap-faq.html
 
 > TDD - everybody knows that TDD stand for test driven development; however people too often concentrate on the 
 words: test and development, and don't conciders what the world driven really implies. For tests to drive 
@@ -12,18 +12,22 @@ express that required functionality to the reader.
 >
 > Nat Pryce and Steve Freeman, Are your tests really driving  your development?
 
-# java 12 implementation
+* the main goal of this workshop is to practice TDD and asking right questions during development,
+and to became acquainted with implementation of `HashMap` and chance to discuss some bitwise operations
+
+# java 8 HashMap
+## implementation overview
 1. signed left shift operator `<<` shifts a bit pattern to the left
     * e.g. `1 << 4 = 16`
+1.  an unsigned right shift operator `>>>`: left operands value is moved right by the number of bits specified 
+by the right operand and shifted values are filled up with zeros
+    * e.g. `A = 60 = 0011 1100` => `A >>> 2 = 0000 1111` and `0000 1111 = 15`    
 1. `transient Node<K,V>[] table;`
     * `HashMap` uses `writeObject` and `readObject` to implement custom serialization rather than 
     just letting its field be serialized normally
     * it writes the number of buckets, the total size and each of the entries to the stream and rebuilds 
     itself from those fields when deserialized
-    * table itself is unnecessary in the serial form, so it's not serialized to save space
-1.  an unsigned right shift operator `>>>`: left operands value is moved right by the number of bits specified 
-by the right operand and shifted values are filled up with zeros
-    * e.g. `A = 60 = 0011 1100` => `A >>> 2 = 0000 1111` and `0000 1111 = 15`
+    * table itself is simply unnecessary in the serial form
 1. hash function
     ```
     static final int hash(Object key) {
@@ -31,11 +35,11 @@ by the right operand and shifted values are filled up with zeros
         return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
     }
     ```    
-    * `XOR` - cheapest possible way to reduce systematic lossage
-        * XOR has the best bit shuffling properties
-        * OR will on average produce 3/4 one-bits. AND on the other hand will produce on average 3/4 null-bits. 
-        Only XOR has an even one-bit vs. null-bit distribution. That makes it so valuable for hash-code generation
-    * `>>>` - what for? in order to use these highest bits
+    * `XOR` - cheapest possible way to reduce systematic loss
+        * `XOR` has the best bit shuffling properties (an even one-bit vs. zero-bit distribution)
+        * `OR` will on average produce 3/4 one-bits 
+        * `AND` on the other hand will produce on average 3/4 zero-bits
+    * `>>>` - in order to use these highest bits
     * as a result, the modulo obtained has less collision
     ```
     h             | h (binary)                              | h % 32 | (h ^ h \>\>\> 16) % 32
@@ -45,33 +49,35 @@ by the right operand and shifted values are filled up with zeros
           262,145 | 0000 0000 0000 0100 0000 0000 0000 0001 |      1 |                   5
           524,289 | 0000 0000 0000 1000 0000 0000 0000 0001 |      1 |                   1
     ```
-* Improve the performance of java.util.HashMap under high hash-collision conditions by using balanced trees rather 
-than linked lists to store map entries.
-* when a bucket becomes too big (currently: TREEIFY_THRESHOLD = 8), HashMap dynamically replaces it with an ad-hoc 
-implementation of tree map. This way rather than having pessimistic O(n) we get much better O(logn). How does it work? 
-Well, previously entries with conflicting keys were simply appended to linked list, which later had to be traversed. 
-Now HashMap promotes list into binary tree, using hash code as a branching variable. If two hashes are different but 
-ended up in the same bucket, one is considered bigger and goes to the right. If hashes are equal (as in our case), 
-HashMap hopes that the keys are Comparable, so that it can establish some order. This is not a requirement of HashMap 
-keys, but apparently a good practice. If keys are not comparable, don't expect any performance improvements in case of 
-heavy hash collisions.
+## performance
+* **JEP 180: Handle Frequent HashMap Collisions with Balanced Trees**: improve the performance of 
+`HashMap` under high hash-collision conditions by using balanced trees rather than linked lists to store map 
+entries
+* when a bucket becomes is too big (`TREEIFY_THRESHOLD = 8`), `HashMap` dynamically replaces list
+with a tree (using hash code as a branching variable)
+    * if two hashes are different but ended up in the same bucket, one is considered bigger and goes to the right 
+        * if hashes are equal (as in our case), HashMap compares the keys (if possible) 
+        * it is a good practice when keys are Comparable
+        * if keys are not comparable, no performance improvements in case of heavy hash collisions
+* in some cases with heavy hash collisions rather than pessimistic `O(n)` we get much better `O(logn)`
 
-
-
-    
+# questions that should be asked
 1. initial capacity
 1. resize (capacity factor) - how to reasonably define load factor?
     * growing based on total size keeps the collision lists at a reasonable size with realistic imperfect hash function, 
     because it’s reasonable to expect every hash function at least makes a best attempt to distribute hash codes
     * https://github.com/mtumilowicz/hash-function
-1. what to do with null? null key - possible? null value - possible?
-1. get should return Optional ?
-1. what to do in case of collision? linkedlist vs balanced tree (threshold)
+1. what to do with `null`
+    * `null` key
+    * `null` value
+1. get should return `Optional`?
+1. what to do in case of collision? list vs tree 
+    * any threshold
 1. thread safe vs not thread safe
-    * approaches to thread safety
+    * approaches to thread safety (global vs per-bucket synchronization)
 1. immutable or mutable?
-1. thread safe or not? what kind of thread safe?
-1. validations?
+    * consequences - (HATM) - https://en.wikipedia.org/wiki/Hash_array_mapped_trie
+1. validations
    
 * `2^n - 1` is a number whose binary representation is all 1 
 * `16 - 1 = 15`, whose binary representation is `1111`
