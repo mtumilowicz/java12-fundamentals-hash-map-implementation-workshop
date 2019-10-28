@@ -1,4 +1,4 @@
-package map;
+package answers.map;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

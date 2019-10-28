@@ -1,6 +1,6 @@
-package map
+package answers.map
 
-import map.MyHashMap
+import answers.map.MyHashMap
 import spock.lang.Specification
 
 class MyHashMapTest extends Specification {

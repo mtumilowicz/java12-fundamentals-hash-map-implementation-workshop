@@ -1,4 +1,4 @@
-package map;
+package answers.map;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
