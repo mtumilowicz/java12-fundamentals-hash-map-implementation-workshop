@@ -27,7 +27,7 @@ public class MyHashMap<K, V> {
         return buckets.get(key);
     }
 
-    public long size() {
+    long size() {
         return buckets.countElementsInBuckets();
     }
 
