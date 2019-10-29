@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 class MyHashMapTest extends Specification {
 
-    def map = new MyHashMap<String, String>()
+    def map = new MyHashMap()
 
     def 'put(null, null) is allowed'() {
         when:
@@ -76,11 +76,11 @@ class MyHashMapTest extends Specification {
         expect:
         'Aa'.hashCode() == 'BB'.hashCode()
 
-        given:
+        when:
         map.put('Aa', 'Aa')
         map.put('BB', 'BB')
 
-        expect:
+        then:
         map.get('Aa') == 'Aa'
         map.get('BB') == 'BB'
     }
@@ -102,6 +102,14 @@ class MyHashMapTest extends Specification {
         map.size() == 0
     }
 
+    def 'when entry is put - size should be incremented'() {
+        when:
+        map.put('a', 'b')
+
+        then:
+        map.size() == 1
+    }
+
     def 'initial number of buckets should be 16'() {
         expect:
         map.countBuckets() == 16
@@ -109,8 +117,7 @@ class MyHashMapTest extends Specification {
 
     def 'number of buckets after resize should be consecutive power of two'() {
         when:
-        (0..<16).collect { it.toString() }
-                .each { map.put(it, it) }
+        (0..<16).each { map.put(it, it) }
 
         then:
         map.countBuckets() == 32
@@ -118,8 +125,7 @@ class MyHashMapTest extends Specification {
 
     def 'number of elements after resize should stay unchanged'() {
         when:
-        (0..<16).collect { it.toString() }
-                .each { map.put(it, it) }
+        (0..<16).each { map.put(it, it) }
 
         then:
         map.size() == 16
@@ -127,14 +133,13 @@ class MyHashMapTest extends Specification {
 
     def 'elements after resize should stay unchanged'() {
         when:
-        (0..<16).collect { it.toString() }
-                .each { map.put(it, it) }
+        (0..<16).each { map.put(it, it) }
 
         then:
         map.get(key) == value
 
         where:
-        key << (0..<16).collect { it.toString() }
-        value << (0..<16).collect { it.toString() }
+        key << (0..<16)
+        value << (0..<16)
     }
 }
