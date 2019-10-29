@@ -12,8 +12,11 @@ express that required functionality to the reader.
 >
 > Nat Pryce and Steve Freeman, Are your tests really driving  your development?
 
-* the main goal of this workshop is to practice TDD and asking right questions during development,
-and to became acquainted with implementation of `HashMap` and chance to discuss some bitwise operations
+* the main goal of this workshop:
+    * practice TDD
+    * practice asking right questions during development
+    * become acquainted with implementation of `HashMap` 
+    * chance to discuss some bitwise operations
 
 # java 8 HashMap
 ## implementation overview
