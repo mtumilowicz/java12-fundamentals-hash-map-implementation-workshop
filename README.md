@@ -5,6 +5,7 @@ _Reference_: https://mincong-h.github.io/2018/04/08/learning-hashmap/
 _Reference_: https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html  
 _Reference_: https://www.javarticles.com/2012/11/hashmap-faq.html
 
+# quote
 > TDD - everybody knows that TDD stand for test driven development; however people too often concentrate on the 
 words: test and development, and don't conciders what the world driven really implies. For tests to drive 
 development they must do more than just test that code performs its required functionality: they must clearly 
@@ -12,6 +13,7 @@ express that required functionality to the reader.
 >
 > Nat Pryce and Steve Freeman, Are your tests really driving  your development?
 
+# preface
 * the main goal of this workshop:
     * practice TDD
     * practice asking right questions during development
@@ -20,16 +22,18 @@ express that required functionality to the reader.
 
 # java 8 HashMap
 ## implementation overview
-1. signed left shift operator `<<` shifts a bit pattern to the left
+1. signed left shift operator `<<` 
+    * shifts a bit pattern to the left
+    * used in counting power of two
     * e.g. `1 << 4 = 16`
-1.  an unsigned right shift operator `>>>`: left operands value is moved right by the number of bits specified 
-by the right operand and shifted values are filled up with zeros
+1.  an unsigned right shift operator `>>>`
+    * shifts a bit pattern to the right regardless sign
     * e.g. `A = 60 = 0011 1100` => `A >>> 2 = 0000 1111` and `0000 1111 = 15`    
 1. `transient Node<K,V>[] table;`
     * `HashMap` uses `writeObject` and `readObject` to implement custom serialization rather than 
     just letting its field be serialized normally
-    * it writes the number of buckets, the total size and each of the entries to the stream and rebuilds 
-    itself from those fields when deserialized
+    * it writes the number of buckets and entries to the stream and rebuilds itself from those fields 
+    when deserialized
     * table itself is simply unnecessary in the serial form
 1. hash function
     ```
@@ -39,10 +43,10 @@ by the right operand and shifted values are filled up with zeros
     }
     ```    
     * `XOR` - cheapest possible way to reduce systematic loss
-        * `XOR` has the best bit shuffling properties (an even one-bit vs. zero-bit distribution)
-        * `OR` will on average produce 3/4 one-bits 
-        * `AND` on the other hand will produce on average 3/4 zero-bits
-    * `>>>` - in order to use these highest bits
+        * `XOR` has the best bit shuffling properties (on average produces 1/2 one-bits)
+        * `OR` on average produces 3/4 one-bits 
+        * `AND` on average produces 3/4 zero-bits
+    * `>>>` - in order to use highest bits in calculation of a bucket: `tab[(n - 1) & hash]`
     * as a result, the modulo obtained has less collision
     ```
     h             | h (binary)                              | h % 32 | (h ^ h \>\>\> 16) % 32
@@ -74,13 +78,14 @@ by the right operand and shifted values are filled up with zeros
 * **JEP 180: Handle Frequent HashMap Collisions with Balanced Trees**: improve the performance of 
 `HashMap` under high hash-collision conditions by using balanced trees rather than linked lists to store map 
 entries
-* when a bucket becomes is too big (`TREEIFY_THRESHOLD = 8`), `HashMap` dynamically replaces list
+* when a bucket becomes too big (`TREEIFY_THRESHOLD = 8`), `HashMap` dynamically replaces list
 with a tree (using hash code as a branching variable)
     * if two hashes are different but ended up in the same bucket, one is considered bigger and goes to the right 
-        * if hashes are equal (as in our case), HashMap compares the keys (if possible) 
-        * it is a good practice when keys are Comparable
+        * if hashes are equal, `HashMap` compares the keys (if possible) 
+        * it is a good practice when keys are `Comparable`
         * if keys are not comparable, no performance improvements in case of heavy hash collisions
-* in some cases with heavy hash collisions rather than pessimistic `O(n)` we get much better `O(logn)`
+* in some cases (mentioned above) with heavy hash collisions rather than pessimistic `O(n)` we 
+get much better `O(log n)`
 
 # questions that should be asked
 1. initial capacity
@@ -93,7 +98,7 @@ with a tree (using hash code as a branching variable)
     * `null` value
     * note that there is no significant difference between getting key with null value and getting key that
     not exists
-1. drop or replace adding entry with the key that already exists in map?
+1. drop or replace entry with the key that already exists in map?
 1. `get` should return `Optional`?
 1. what to do in case of collision? list vs tree 
     * any threshold?
