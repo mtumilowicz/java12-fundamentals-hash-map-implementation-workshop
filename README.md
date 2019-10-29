@@ -1,6 +1,6 @@
 # java12-fundamentals-hash-map-implementation-workshop
 
-_Reference_: http://openjdk.java.net/jeps/180
+_Reference_: http://openjdk.java.net/jeps/180  
 _Reference_: https://mincong-h.github.io/2018/04/08/learning-hashmap/  
 _Reference_: https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html  
 _Reference_: https://www.javarticles.com/2012/11/hashmap-faq.html
