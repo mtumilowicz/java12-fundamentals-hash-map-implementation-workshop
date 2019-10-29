@@ -4,7 +4,7 @@ import spock.lang.Specification
 
 class MyHashMapFunctionalTest extends Specification {
 
-    def map = new MyHashMap()
+    MyMap map = MyMap.create()
 
     def 'entry (null, null) could be added and is accessible'() {
         when:
@@ -59,6 +59,6 @@ class MyHashMapFunctionalTest extends Specification {
         map.put('a', 'c')
 
         then:
-        map.get('a') == 'b'
+        map.get('a') == 'c'
     }
 }

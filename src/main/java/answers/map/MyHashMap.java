@@ -5,13 +5,13 @@ import lombok.ToString;
 
 @ToString(of = "buckets")
 @AllArgsConstructor
-public class MyHashMap<K, V> {
+class MyHashMap<K, V> implements MyMap<K, V> {
     private Buckets<K, V> buckets;
     private int exponent;
     private static final int INITIAL_EXPONENT = 4;
     private static final double LOAD_FACTOR = 0.75;
 
-    public MyHashMap() {
+    MyHashMap() {
         this.buckets = Buckets.of(powerOfTwo(INITIAL_EXPONENT));
         this.exponent = INITIAL_EXPONENT;
     }
