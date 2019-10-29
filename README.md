@@ -49,6 +49,7 @@ by the right operand and shifted values are filled up with zeros
           262,145 | 0000 0000 0000 0100 0000 0000 0000 0001 |      1 |                   5
           524,289 | 0000 0000 0000 1000 0000 0000 0000 0001 |      1 |                   1
     ```
+1. small number of collisions is virtually inevitable: https://github.com/mtumilowicz/hash-function
 1. `getNode`
     * `tab[(n - 1) & hash]`
     * **size have to be power of two**: `2^n - 1`, binary representation: all 1 
@@ -81,18 +82,17 @@ with a tree (using hash code as a branching variable)
 # questions that should be asked
 1. initial capacity
 1. resize (capacity factor) - how to reasonably define load factor?
-    * growing based on total size keeps the collision lists at a reasonable size with realistic imperfect hash function, 
-    because it’s reasonable to expect every hash function at least makes a best attempt to distribute hash codes
-    * https://github.com/mtumilowicz/hash-function
-1. what to do with `null`
+    * assumption: every hash function at least makes a best attempt to distribute hash codes
+    * growing based on total size keeps the collision lists at a reasonable size with realistic imperfect 
+    hash function
+1. what to do with `null`, any validations?
     * `null` key
     * `null` value
-1. what to do with put(key, value) when key already exists in map
-1. get should return `Optional`?
+1. drop or replace adding entry with the key that already exists in map?
+1. `get` should return `Optional`?
 1. what to do in case of collision? list vs tree 
-    * any threshold
+    * any threshold?
 1. thread safe vs not thread safe
     * approaches to thread safety (global vs per-bucket synchronization)
 1. immutable or mutable?
     * consequences - (HATM) - https://en.wikipedia.org/wiki/Hash_array_mapped_trie
-1. validations
