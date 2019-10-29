@@ -49,7 +49,7 @@ express that required functionality to the reader.
     * `>>>` - in order to use highest bits in calculation of a bucket: `tab[(n - 1) & hash]`
     * as a result, the modulo obtained has less collision
     ```
-    h             | h (binary)                              | h % 32 | (h ^ h \>\>\> 16) % 32
+    h             | h (binary)                              | h % 32 | (h ^ h >>> 16) % 32
     ------------: | :-------------------------------------: | -----: | ------------------:
            65,537 | 0000 0000 0000 0001 0000 0000 0000 0001 |      1 |                   0
           131,073 | 0000 0000 0000 0010 0000 0000 0000 0001 |      1 |                   3
