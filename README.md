@@ -71,8 +71,7 @@ express that required functionality to the reader.
     * bitwise AND with `16` -> lose all bits except the 5th bit from the end
     * regardless of the number, the bucket index will be either 16 or 0
     * it means a lot of collisions and poor performance
-    * instead of `O(1)` for retrieval, you'd need `O(log n)` (when collision occurs, all the nodes in a given bucket 
-    are stored in a tree) 
+    * instead of `O(1)` for retrieval, you'd need `O(log n)`
     * in case of `ConcurrentHashMap` in a multithreaded environment, you'd experience lot of synchronizations
 ## performance
 * **JEP 180: Handle Frequent HashMap Collisions with Balanced Trees**: improve the performance of 
