@@ -35,6 +35,10 @@ class MyHashMap<K, V> implements MyMap<K, V> {
         return powerOfTwo(exponent);
     }
 
+    long countElementsInSameBucketAs(K key) {
+        return buckets.countElementsInSameBucketAs(key);
+    }
+
     private void resize(int exponent) {
         buckets = buckets.rehashWithSize(powerOfTwo(exponent));
     }

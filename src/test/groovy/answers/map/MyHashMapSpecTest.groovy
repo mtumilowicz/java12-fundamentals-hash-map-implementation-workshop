@@ -6,6 +6,18 @@ class MyHashMapSpecTest extends Specification {
 
     def map = new MyHashMap()
 
+    def 'entries with same hash should reside in same bucket'() {
+        expect:
+        'Aa'.hashCode() == 'BB'.hashCode()
+
+        when:
+        map.put('Aa', 'a')
+        map.put('BB', 'b')
+
+        then:
+        map.countElementsInSameBucketAs('Aa') == 2
+    }
+
     def 'initial size should be 0'() {
         expect:
         map.size() == 0

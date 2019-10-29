@@ -47,6 +47,9 @@ class Buckets<K, V> {
         return bucket(key).get(key);
     }
 
+    long countElementsInSameBucketAs(K key) {
+        return bucket(key).size();
+    }
 
     private void insert(MyEntry<K, V> entry) {
         bucket(entry.getKey()).add(entry.getKey(), entry.getValue());

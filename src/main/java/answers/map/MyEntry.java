@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-@EqualsAndHashCode(of = {"key", "value"})
+@EqualsAndHashCode
 @ToString
 @AllArgsConstructor
 @Getter
