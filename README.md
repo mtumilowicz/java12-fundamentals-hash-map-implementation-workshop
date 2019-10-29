@@ -22,6 +22,7 @@ express that required functionality to the reader.
     * practice asking right questions during development
     * become acquainted with implementation of `HashMap` 
     * chance to discuss some bitwise operations
+* exemplary solution is in `answers` package
 
 # java 8 HashMap
 ## implementation overview
