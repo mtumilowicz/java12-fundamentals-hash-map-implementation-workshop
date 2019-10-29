@@ -38,6 +38,18 @@ class MyHashMapTest extends Specification {
         map.size() == 1
     }
 
+    def 'put keys with same hash'() {
+        expect:
+        'Aa'.hashCode() == 'BB'.hashCode()
+
+        when:
+        map.put('Aa', 'Aa')
+        map.put('BB', 'BB')
+
+        then:
+        map.size() == 2
+    }
+
     def 'get(existing non null key) should retrieve corresponding value'() {
         when:
         map.put('a', 'a')
@@ -60,13 +72,15 @@ class MyHashMapTest extends Specification {
         map.get('a') == null
     }
 
-    def 'put with same hash'() {
-        when:
+    def 'get entries with the keys of same hash'() {
+        expect:
+        'Aa'.hashCode() == 'BB'.hashCode()
+
+        given:
         map.put('Aa', 'Aa')
         map.put('BB', 'BB')
 
-        then:
-        map.size() == 2
+        expect:
         map.get('Aa') == 'Aa'
         map.get('BB') == 'BB'
     }
