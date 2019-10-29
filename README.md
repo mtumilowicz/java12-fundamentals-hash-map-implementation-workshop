@@ -98,3 +98,5 @@ with a tree (using hash code as a branching variable)
     * approaches to thread safety (global vs per-bucket synchronization)
 1. immutable or mutable?
     * consequences - (HATM) - https://en.wikipedia.org/wiki/Hash_array_mapped_trie
+1. how to write tests
+    * you could unit-test implementation but tests should be easy to throw away
