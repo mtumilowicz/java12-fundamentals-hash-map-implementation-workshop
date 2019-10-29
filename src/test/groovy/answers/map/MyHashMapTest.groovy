@@ -72,7 +72,7 @@ class MyHashMapTest extends Specification {
         map.get('a') == null
     }
 
-    def 'get entries with the keys of same hash'() {
+    def 'get entries when the keys have same hash'() {
         expect:
         'Aa'.hashCode() == 'BB'.hashCode()
 
@@ -85,9 +85,11 @@ class MyHashMapTest extends Specification {
         map.get('BB') == 'BB'
     }
 
-    def 'when element with the key that already exists is put - existing entry is replaced'() {
-        when:
+    def 'put(key, value) and key already exists in map - the entry should be replaced'() {
+        given:
         map.put('a', 'a')
+
+        when:
         map.put('a', 'b')
 
         then:
