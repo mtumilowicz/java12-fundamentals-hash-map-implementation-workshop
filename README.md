@@ -17,7 +17,7 @@ express that required functionality to the reader.
 > Nat Pryce and Steve Freeman, Are your tests really driving  your development?
 
 # preface
-* the main goal of this workshop:
+* goals of this workshop:
     * practice TDD
     * practice asking right questions during development
     * become acquainted with implementation of `HashMap` 
