@@ -88,6 +88,8 @@ with a tree (using hash code as a branching variable)
 1. what to do with `null`, any validations?
     * `null` key
     * `null` value
+    * note that there is no significant difference between getting key with null value and getting key that
+    not exists
 1. drop or replace adding entry with the key that already exists in map?
 1. `get` should return `Optional`?
 1. what to do in case of collision? list vs tree 
