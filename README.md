@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/mtumilowicz/java12-fundamentals-hash-map-implementation.svg?branch=master)](https://travis-ci.com/mtumilowicz/java12-fundamentals-hash-map-implementation)
+[![Build Status](https://travis-ci.com/mtumilowicz/java12-fundamentals-hash-map-implementation-workshop.svg?branch=master)](https://travis-ci.com/mtumilowicz/java12-fundamentals-hash-map-implementation-workshop)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # java12-fundamentals-hash-map-implementation-workshop
@@ -18,11 +18,12 @@ express that required functionality to the reader.
 > Nat Pryce and Steve Freeman, Are your tests really driving  your development?
 
 # preface
-* the main goal of this workshop:
+* goals of this workshop:
     * practice TDD
     * practice asking right questions during development
     * become acquainted with implementation of `HashMap` 
     * chance to discuss some bitwise operations
+* exemplary solution is in `answers` package
 
 # java 8 HashMap
 ## implementation overview
