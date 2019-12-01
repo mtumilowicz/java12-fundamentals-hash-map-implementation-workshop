@@ -6,7 +6,8 @@
 _Reference_: http://openjdk.java.net/jeps/180  
 _Reference_: https://mincong-h.github.io/2018/04/08/learning-hashmap/  
 _Reference_: https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html  
-_Reference_: https://www.javarticles.com/2012/11/hashmap-faq.html
+_Reference_: https://www.javarticles.com/2012/11/hashmap-faq.html  
+_Reference_: https://javaconceptoftheday.com/how-hashset-works-internally-in-java/
 
 # quote
 > TDD - everybody knows that TDD stand for test driven development; however people too often concentrate on the 
@@ -110,3 +111,22 @@ get much better `O(log n)`
     * consequences - (HATM) - https://en.wikipedia.org/wiki/Hash_array_mapped_trie
 1. how to write tests
     * you could unit-test implementation but tests should be easy to throw away
+# digression
+* `HashSet` uses `HashMap` internally to store it’s objects 
+* whenever we create a `HashSet`, `HashMap` object associated with it is also created
+    * elements you add into `HashSet` are stored as keys of `HashMap` object, value associated with those 
+    keys is a constant
+* from `HashSet` implementation
+    ```
+    private static final Object PRESENT = new Object();
+    
+    public boolean add(E e)
+    {
+            return map.put(e, PRESENT)==null;
+    }
+    
+    public boolean remove(Object o)
+    {
+            return map.remove(o)==PRESENT;
+    }
+    ```
