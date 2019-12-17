@@ -27,12 +27,4 @@ class MyHashMap<K, V> implements MyMap<K, V> {
     public long size() {
         return buckets.countElementsInBuckets();
     }
-
-    int countBuckets() {
-        return buckets.countBuckets();
-    }
-
-    long countElementsInSameBucketAs(K key) {
-        return buckets.countElementsInSameBucketAs(key);
-    }
 }

@@ -6,18 +6,6 @@ class MyHashMapSpecTest extends Specification {
 
     def map = new MyHashMap()
 
-    def 'entries with same hash should reside in same bucket'() {
-        expect:
-        'Aa'.hashCode() == 'BB'.hashCode()
-
-        when:
-        map.put('Aa', 'a')
-        map.put('BB', 'b')
-
-        then:
-        map.countElementsInSameBucketAs('Aa') == 2
-    }
-
     def 'initial size should be 0'() {
         expect:
         map.size() == 0
@@ -29,19 +17,6 @@ class MyHashMapSpecTest extends Specification {
 
         then:
         map.size() == 1
-    }
-
-    def 'initial number of buckets should be 16'() {
-        expect:
-        map.countBuckets() == 16
-    }
-
-    def 'number of buckets after resize should be consecutive power of two'() {
-        when:
-        (0..<16).each { map.put(it, it) }
-
-        then:
-        map.countBuckets() == 32
     }
 
     def 'number of elements after resize should stay unchanged'() {
