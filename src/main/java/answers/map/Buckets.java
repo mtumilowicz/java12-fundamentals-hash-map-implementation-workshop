@@ -28,7 +28,7 @@ class Buckets<K, V> {
         return new Buckets<>(buckets, numberOfBuckets);
     }
 
-    Buckets<K, V> expandByPow2() {
+    Buckets<K, V> withDoubledBucketsCount() {
         Buckets<K, V> resized = of(exponent + 1);
 
         buckets.stream().map(Bucket::getEntries)

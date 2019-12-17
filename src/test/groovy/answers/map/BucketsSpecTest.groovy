@@ -13,7 +13,7 @@ class BucketsSpecTest extends Specification {
 
     def 'number of buckets after resize should be consecutive power of two'() {
         when:
-        def resized = buckets.expandByPow2()
+        def resized = buckets.withDoubledBucketsCount()
 
         then:
         resized.countBuckets() == 32
