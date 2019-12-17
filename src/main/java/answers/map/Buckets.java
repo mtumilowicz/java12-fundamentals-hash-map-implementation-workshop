@@ -13,17 +13,23 @@ import java.util.stream.IntStream;
 @ToString
 class Buckets<K, V> {
     private final ArrayList<Bucket<K, V>> buckets;
+    private final int exponent;
+    private static final int INITIAL_EXPONENT = 4;
+
+    static <V, K> Buckets<K, V> of() {
+        return of(INITIAL_EXPONENT);
+    }
 
     static <V, K> Buckets<K, V> of(int numberOfBuckets) {
-        var buckets = IntStream.range(0, numberOfBuckets)
+        var buckets = IntStream.range(0, powerOfTwo(numberOfBuckets))
                 .mapToObj(ignore -> new Bucket<K, V>())
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        return new Buckets<>(buckets);
+        return new Buckets<>(buckets, numberOfBuckets);
     }
 
-    Buckets<K, V> rehashWithSize(int newSize) {
-        Buckets<K, V> resized = of(newSize);
+    Buckets<K, V> expandByPow2() {
+        Buckets<K, V> resized = of(exponent + 1);
 
         buckets.stream().map(Bucket::getEntries)
                 .flatMap(Collection::stream)
@@ -69,5 +75,13 @@ class Buckets<K, V> {
 
     private int hash(K key) {
         return Math.abs(Objects.hashCode(key));
+    }
+
+    private static int powerOfTwo(int exponent) {
+        return 1 << exponent;
+    }
+
+    public int size() {
+        return powerOfTwo(exponent);
     }
 }
