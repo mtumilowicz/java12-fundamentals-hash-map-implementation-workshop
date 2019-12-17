@@ -61,7 +61,7 @@ class Buckets<K, V> {
         bucket(entry.getKey()).add(entry);
     }
 
-    boolean shouldBeResized(double LOAD_FACTOR) {
+    boolean loadFactorExceeded(double LOAD_FACTOR) {
         return countElementsInBuckets() > countBuckets() * LOAD_FACTOR;
     }
 

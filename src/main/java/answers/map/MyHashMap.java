@@ -14,7 +14,7 @@ class MyHashMap<K, V> implements MyMap<K, V> {
     }
 
     public void put(K key, V value) {
-        if (buckets.shouldBeResized(LOAD_FACTOR)) {
+        if (loadFactorExceeded()) {
             buckets = buckets.expandByPow2();
         }
         buckets.insert(key, value);
@@ -26,5 +26,9 @@ class MyHashMap<K, V> implements MyMap<K, V> {
 
     public long size() {
         return buckets.countElementsInBuckets();
+    }
+
+    private boolean loadFactorExceeded() {
+        return buckets.loadFactorExceeded(LOAD_FACTOR);
     }
 }
