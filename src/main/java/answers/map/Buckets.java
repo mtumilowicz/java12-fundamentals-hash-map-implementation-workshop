@@ -61,7 +61,7 @@ class Buckets<K, V> {
         bucket(entry.getKey()).add(entry);
     }
 
-    private int countBuckets() {
+    int countBuckets() {
         return buckets.size();
     }
 
@@ -79,9 +79,5 @@ class Buckets<K, V> {
 
     private static int powerOfTwo(int exponent) {
         return 1 << exponent;
-    }
-
-    public int size() {
-        return powerOfTwo(exponent);
     }
 }

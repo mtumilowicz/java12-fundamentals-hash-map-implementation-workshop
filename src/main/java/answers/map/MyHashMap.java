@@ -29,7 +29,7 @@ class MyHashMap<K, V> implements MyMap<K, V> {
     }
 
     int countBuckets() {
-        return buckets.size();
+        return buckets.countBuckets();
     }
 
     long countElementsInSameBucketAs(K key) {
