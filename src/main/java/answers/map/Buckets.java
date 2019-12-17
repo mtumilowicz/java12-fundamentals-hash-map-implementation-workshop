@@ -13,6 +13,7 @@ import java.util.stream.IntStream;
 @ToString
 class Buckets<K, V> {
     private final ArrayList<Bucket<K, V>> buckets;
+    private final int exponent;
     private static final int INITIAL_EXPONENT = 4;
 
     static <V, K> Buckets<K, V> of() {
@@ -24,11 +25,11 @@ class Buckets<K, V> {
                 .mapToObj(ignore -> new Bucket<K, V>())
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        return new Buckets<>(buckets);
+        return new Buckets<>(buckets, numberOfBuckets);
     }
 
     Buckets<K, V> expandByPow2() {
-        Buckets<K, V> resized = of(countBuckets() + 1);
+        Buckets<K, V> resized = of(exponent + 1);
 
         buckets.stream().map(Bucket::getEntries)
                 .flatMap(Collection::stream)
@@ -65,7 +66,7 @@ class Buckets<K, V> {
     }
 
     int countBuckets() {
-        return buckets.size();
+        return powerOfTwo(exponent);
     }
 
     private Bucket<K, V> bucket(K key) {
