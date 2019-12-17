@@ -14,8 +14,12 @@ class Bucket<K, V> {
     private final LinkedList<MyEntry<K, V>> entries = new LinkedList<>();
 
     void add(K key, V value) {
-        getEntryByKey(key)
-                .ifPresentOrElse(MyEntry.setValue(value), () -> entries.add(new MyEntry<>(key, value)));
+        entries.removeIf(MyEntry.hasKey(key));
+        entries.add(MyEntry.of(key, value));
+    }
+
+    void add(MyEntry<K, V> entry) {
+        add(entry.getKey(), entry.getValue());
     }
 
     V get(K key) {

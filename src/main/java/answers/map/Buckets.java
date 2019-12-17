@@ -52,7 +52,7 @@ class Buckets<K, V> {
     }
 
     private void insert(MyEntry<K, V> entry) {
-        bucket(entry.getKey()).add(entry.getKey(), entry.getValue());
+        bucket(entry.getKey()).add(entry);
     }
 
     private int countBuckets() {
