@@ -14,14 +14,10 @@ class MyHashMap<K, V> implements MyMap<K, V> {
     }
 
     public void put(K key, V value) {
-        if (shouldBeResized()) {
+        if (buckets.shouldBeResized(LOAD_FACTOR)) {
             resize();
         }
         buckets.insert(key, value);
-    }
-
-    private boolean shouldBeResized() {
-        return size() > countBuckets() * LOAD_FACTOR;
     }
 
     public V get(K key) {
