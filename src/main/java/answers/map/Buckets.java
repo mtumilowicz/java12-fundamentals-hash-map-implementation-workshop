@@ -20,12 +20,12 @@ class Buckets<K, V> {
         return of(INITIAL_EXPONENT);
     }
 
-    static <V, K> Buckets<K, V> of(int numberOfBuckets) {
-        var buckets = IntStream.range(0, powerOfTwo(numberOfBuckets))
+    static <V, K> Buckets<K, V> of(int exponent) {
+        var buckets = IntStream.range(0, powerOfTwo(exponent))
                 .mapToObj(ignore -> new Bucket<K, V>())
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        return new Buckets<>(buckets, numberOfBuckets);
+        return new Buckets<>(buckets, exponent);
     }
 
     Buckets<K, V> withDoubledBucketsCount() {
@@ -74,7 +74,7 @@ class Buckets<K, V> {
     }
 
     private int getBucketIndex(K key) {
-        return hash(key) % countBuckets();
+        return hash(key) & countBuckets();
     }
 
     private int hash(K key) {
