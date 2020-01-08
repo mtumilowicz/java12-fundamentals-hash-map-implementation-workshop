@@ -38,7 +38,7 @@ class MyHashMapFunctionalTest extends Specification {
         map.get('a') == 'b'
     }
 
-    def 'entries with keys with same hash could be added nad are accessible'() {
+    def 'entries with keys with same hash could be added and are accessible'() {
         expect:
         'Aa'.hashCode() == 'BB'.hashCode()
 
