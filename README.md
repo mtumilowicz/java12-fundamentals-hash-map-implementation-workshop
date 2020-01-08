@@ -78,6 +78,11 @@ express that required functionality to the reader.
     * it means a lot of collisions and poor performance
     * instead of `O(1)` for retrieval, you'd need `O(log n)`
     * in case of `ConcurrentHashMap` in a multithreaded environment, you'd experience lot of synchronizations
+1. resize
+    * triggered when: `countElementsInBuckets() > countBuckets() * LOAD_FACTOR`
+    * we cannot make decision to resize using concrete bucket size (for example - assuming that we resize 
+    when number of elements in some bucket exceeds given threshold), because there will always exist bad
+    hash function that directs all elements into that very bucket
 ## performance
 * **JEP 180: Handle Frequent HashMap Collisions with Balanced Trees**: improve the performance of 
 `HashMap` under high hash-collision conditions by using balanced trees rather than linked lists to store map 
