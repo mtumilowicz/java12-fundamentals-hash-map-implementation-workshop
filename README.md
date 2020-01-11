@@ -95,6 +95,9 @@ with a tree (using hash code as a branching variable)
         * if keys are not comparable, no performance improvements in case of heavy hash collisions
 * in some cases (mentioned above) with heavy hash collisions rather than pessimistic `O(n)` we 
 get much better `O(log n)`
+* when we have proper hash function (or even ideal hash function) the LOAD_FACTOR guarantees that there will be only a tiny amount
+of entries in each bucket, and it will be strictly limited for all - therefore we are allowed to say, that complexity of retrieving
+element from a hashmap is `O(1)`
 
 # questions that should be asked
 1. initial capacity
