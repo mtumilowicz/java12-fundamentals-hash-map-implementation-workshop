@@ -3,11 +3,13 @@
 
 # java12-fundamentals-hash-map-implementation-workshop
 
-_Reference_: http://openjdk.java.net/jeps/180  
-_Reference_: https://mincong-h.github.io/2018/04/08/learning-hashmap/  
-_Reference_: https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html  
-_Reference_: https://www.javarticles.com/2012/11/hashmap-faq.html  
-_Reference_: https://javaconceptoftheday.com/how-hashset-works-internally-in-java/
+* references
+    * http://openjdk.java.net/jeps/180
+    * https://mincong-h.github.io/2018/04/08/learning-hashmap/
+    * https://www.nurkiewicz.com/2014/04/hashmap-performance-improvements-in.html
+    * https://www.javarticles.com/2012/11/hashmap-faq.html
+    * https://javaconceptoftheday.com/how-hashset-works-internally-in-java/
+    * https://www.geeksforgeeks.org/hashing-set-3-open-addressing
 
 # quote
 > TDD - everybody knows that TDD stand for test driven development; however people too often concentrate on the 
@@ -62,6 +64,19 @@ express that required functionality to the reader.
           524,289 | 0000 0000 0000 1000 0000 0000 0000 0001 |      1 |                   1
     ```
 1. small number of collisions is virtually inevitable: https://github.com/mtumilowicz/hash-function
+1. note that instead of using list/tree to resolve hash collisions problem, there is another approach: open addressing
+    * open addressing basics
+        * all elements are stored in the hash table itself
+        * insert(k): find slot for k
+            * if empty - insert k
+            * if not empty - search right until an empty slot is found and insert k
+        * search(k): find slot for k
+            * if empty - not found
+            * if not empty and not equal to k - keep searching right
+            * if not empty and equal to k - found
+        * delete(k): we cannot perform simple deletion because the search may fail (we introduce gaps)
+            * marked slots as "deleted"
+            * we can insert an item in a deleted slot, but the search doesn’t stop at a deleted slot
 1. `getNode`
     * `tab[(n - 1) & hash]`
     * **size have to be power of two**: `2^n - 1`, binary representation: all 1 
@@ -109,7 +124,7 @@ get much better `O(log n)`
     not exists
 1. drop or replace entry with the key that already exists in map?
 1. `get` should return `Optional`?
-1. what to do in case of collision? list vs tree 
+1. what to do in case of collision? list vs tree vs open addressing
     * any threshold?
 1. thread safe vs not thread safe
     * approaches to thread safety (global vs per-bucket synchronization)
