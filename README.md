@@ -105,9 +105,9 @@ entries
 * when a bucket becomes too big (`TREEIFY_THRESHOLD = 8`), `HashMap` dynamically replaces list
 with a tree (using hash code as a branching variable)
     * if two hashes are different but ended up in the same bucket, one is considered bigger and goes to the right 
-        * if hashes are equal, `HashMap` compares the keys (if possible) 
-        * it is a good practice when keys are `Comparable`
-        * if keys are not comparable, no performance improvements in case of heavy hash collisions
+    * if hashes are equal, `HashMap` compares the keys (if possible) 
+      * it is a good practice when keys are `Comparable`
+      * if keys are not comparable, no performance improvements in case of heavy hash collisions
 * in some cases (mentioned above) with heavy hash collisions rather than pessimistic `O(n)` we 
 get much better `O(log n)`
 * when we have proper hash function (or even ideal hash function) the LOAD_FACTOR guarantees that there will be only a tiny amount
